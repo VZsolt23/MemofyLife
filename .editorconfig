@@ -1,0 +1,116 @@
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+max_line_length = 100
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.cs]
+
+# -----------------------------------------------
+# General formatting
+# -----------------------------------------------
+
+indent_size = 4
+tab_width = 4
+max_line_length = 100
+
+# Braces and line breaks
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_preserve_single_line_blocks = false
+csharp_preserve_single_line_statements = false
+
+# Indentation
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = flush_left
+
+# Spaces
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_after_comma = true
+csharp_space_before_comma = false
+csharp_space_after_semicolon_in_for_statement = true
+
+# using directives
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# -----------------------------------------------
+# Readability and code style
+# -----------------------------------------------
+
+# Prefer explicit types only where they improve clarity.
+csharp_style_var_for_built_in_types = true:warning
+csharp_style_var_when_type_is_apparent = true:warning
+csharp_style_var_elsewhere = false:warning
+
+# Modern, readable C#
+csharp_style_expression_bodied_methods = false:warning
+csharp_style_expression_bodied_constructors = false:warning
+csharp_style_expression_bodied_operators = false:warning
+csharp_style_expression_bodied_properties = true:warning
+csharp_style_expression_bodied_indexers = true:warning
+csharp_style_throw_expression = true:warning
+csharp_style_pattern_matching_over_is_with_cast_check = true:warning
+
+# Explicit and consistent access modifiers
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:warning
+
+# Avoid unnecessary qualification with this.
+dotnet_style_qualification_for_field = false:warning
+dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
+
+# Object creation
+csharp_style_implicit_object_creation_when_type_is_apparent = true:warning
+
+# -----------------------------------------------
+# Naming conventions
+# -----------------------------------------------
+
+dotnet_naming_rule.private_fields_should_be_camel_case.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_case.style = camel_case
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.camel_case.capitalization = camel_case
+
+# -----------------------------------------------
+# Formatting diagnostics
+# -----------------------------------------------
+
+dotnet_diagnostic.IDE0055.severity = warning
+dotnet_diagnostic.IDE0005.severity = warning
+
+# -----------------------------------------------
+# JetBrains Rider / ReSharper extensions
+# -----------------------------------------------
+
+resharper_csharp_max_line_length = 100
+resharper_csharp_wrap_long_lines = true
+
+# Keep multiline expressions readable
+resharper_csharp_wrap_arguments_style = chop_if_long
+resharper_csharp_wrap_parameters_style = chop_if_long
+resharper_csharp_wrap_after_declaration_lpar = true
+resharper_csharp_wrap_before_binary_opsign = true
+
+# Separate members visually
+resharper_csharp_blank_lines_around_invocable = 1
+resharper_csharp_blank_lines_around_field = 0
