@@ -2,10 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MemofyLife.Features.Arcade.Games.Minesweeper.Views.MinesweeperPage"
-             Title="MinesweeperPage">
+             xmlns:vm="clr-namespace:MemofyLife.Features.Arcade.Games.Minesweeper.ViewModels"
+             x:DataType="vm:MinesweeperViewModel"
+             Shell.TabBarIsVisible="False"
+             Title="{Binding Title}">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Üdv az aknakereső oldalon"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>

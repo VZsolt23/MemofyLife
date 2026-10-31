@@ -13,7 +13,7 @@ public static class Routes
     public const string PersonEditPage = "person-edit";
     public const string VehicleLogPage = "vehicle-log";
     public const string EntryEditPage = "entry-edit";
-    public const string MineSweeperPage = "mine-sweeper";
+    public const string MinesweeperPage = "minesweeper";
 
     public static class Params
     {
