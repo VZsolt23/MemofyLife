@@ -61,3 +61,29 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+###############################################################################
+# Line endings: keep in sync with .editorconfig (end_of_line = crlf).
+# The repository stores LF; the working tree always gets CRLF, regardless of
+# core.autocrlf, so every contributor and tool sees the same endings.
+###############################################################################
+*.cs            text eol=crlf
+*.xaml          text eol=crlf
+*.csproj        text eol=crlf
+*.slnx          text eol=crlf
+*.props         text eol=crlf
+*.targets       text eol=crlf
+*.json          text eol=crlf
+*.md            text eol=crlf
+.editorconfig   text eol=crlf
+.gitattributes  text eol=crlf
+.gitignore      text eol=crlf
+
+# Shell scripts must stay LF to run on Unix.
+*.sh            text eol=lf
+
+# Binary assets
+*.png           binary
+*.jpg           binary
+*.ttf           binary
+*.otf           binary
