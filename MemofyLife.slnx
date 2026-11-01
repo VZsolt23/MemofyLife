@@ -1,3 +1,9 @@
 <Solution>
-  <Project Path="MemofyLife.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/MemofyLife/MemofyLife.csproj" />
+    <Project Path="src/MemofyLife.Minesweeper.Engine/MemofyLife.Minesweeper.Engine.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MemofyLife.Tests/MemofyLife.Tests.csproj" />
+  </Folder>
 </Solution>
