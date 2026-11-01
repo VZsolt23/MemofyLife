@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MemofyLife.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:nav="clr-namespace:MemofyLife.Navigation"
+    xmlns:home="clr-namespace:MemofyLife.Features.Home.Views"
+    xmlns:arcade="clr-namespace:MemofyLife.Features.Arcade.Catalog.Views"
+    Title="MemofyLife"
+    FlyoutBehavior="Disabled">
+
+    <TabBar>
+        <ShellContent
+            Title="Kezdőlap"
+            Icon="house_solid_full.png"
+            ContentTemplate="{DataTemplate home:HomePage}"
+            Route="{x:Static nav:Routes.HomeTab}" />
+        <ShellContent
+            Title="Játszótér"
+            Icon="gamepad_solid_full.png"
+            ContentTemplate="{DataTemplate arcade:ArcadePage}"
+            Route="{x:Static nav:Routes.ArcadeTab}" />
+    </TabBar>
+
+</Shell>
