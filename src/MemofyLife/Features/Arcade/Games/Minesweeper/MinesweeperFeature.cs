@@ -1,7 +1,9 @@
 using MemofyLife.Features.Arcade.Games.Minesweeper.ViewModels;
 using MemofyLife.Features.Arcade.Games.Minesweeper.Views;
 using MemofyLife.Features.Arcade.Shared;
+using MemofyLife.Minesweeper.Engine;
 using MemofyLife.Navigation;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace MemofyLife.Features.Arcade.Games.Minesweeper;
 
@@ -10,6 +12,8 @@ public static class MinesweeperFeature
     public static IServiceCollection AddMinesweeper(this IServiceCollection services)
     {
         services.AddSingleton<IGame, MinesweeperGame>();
+        services.AddSingleton<IMinePlacer>(_ => new RandomMinePlacer());
+        services.TryAddSingleton(TimeProvider.System);
         services.AddTransient<MinesweeperPage>();
         services.AddTransient<MinesweeperViewModel>();
         return services;

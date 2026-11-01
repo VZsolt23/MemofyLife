@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <!--
+        A UseMaterial3=true beállításhoz a Material 3 témából kell örökölni.
+        A beépített Maui.SplashTheme még a Theme.MaterialComponents-ból származik,
+        ezért a Material 3 vezérlők ("TextAppearance" hiba) összeomlottak rajta.
+    -->
+    <style name="MemofyLife.SplashTheme" parent="Maui.Material3.Theme.NoActionBar">
+        <item name="maui_splash">true</item>
+        <item name="android:windowBackground">@drawable/maui_splash</item>
+        <item name="android:windowSplashScreenBackground">@color/maui_splash_color</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/maui_splash</item>
+    </style>
+</resources>

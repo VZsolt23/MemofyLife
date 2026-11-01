@@ -1,15 +1,85 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MemofyLife.Features.Arcade.Games.Minesweeper.Views.MinesweeperPage"
              xmlns:vm="clr-namespace:MemofyLife.Features.Arcade.Games.Minesweeper.ViewModels"
+             x:Class="MemofyLife.Features.Arcade.Games.Minesweeper.Views.MinesweeperPage"
              x:DataType="vm:MinesweeperViewModel"
              Shell.TabBarIsVisible="False"
              Title="{Binding Title}">
-    <VerticalStackLayout>
-        <Label 
-            Text="Üdv az aknakereső oldalon"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto,Auto,*,Auto"
+          Padding="12"
+          RowSpacing="12">
+
+        <!-- Fejléc: hátralévő zászlók, eltelt idő, újraindítás -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,Auto">
+            <Label Grid.Column="0"
+                   Text="{Binding FlagsLeft, StringFormat='🚩 {0}'}"
+                   FontSize="20"
+                   VerticalOptions="Center" />
+            <Label Grid.Column="1"
+                   Text="{Binding ElapsedText, StringFormat='⏱ {0}'}"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            <Button Grid.Column="2"
+                    Text="Újra"
+                    Command="{Binding RestartCommand}" />
+        </Grid>
+
+        <!-- Eredmény: játék végén jelenik meg -->
+        <VerticalStackLayout Grid.Row="1"
+                             IsVisible="{Binding IsGameOver}"
+                             Spacing="8">
+            <Label Text="{Binding ResultText}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Button Text="Kilépés"
+                    Command="{Binding ExitCommand}"
+                    HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Tábla: az oszlopszámot (Span) a code-behind állítja -->
+        <CollectionView x:Name="Board"
+                        Grid.Row="2"
+                        ItemsSource="{Binding Cells}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:MinesweeperCellViewModel">
+                    <Border StrokeThickness="0"
+                            StrokeShape="RoundRectangle 4"
+                            SizeChanged="OnCellSizeChanged">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding IsRevealed}"
+                                         Value="False">
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#9AA0A6, Dark=#5F6368}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding IsRevealed}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#E8EAED, Dark=#2B2D30}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TapCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="{Binding Text}"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Zászló mód: koppintásra zászlót tesz felfedés helyett -->
+        <HorizontalStackLayout Grid.Row="3"
+                               HorizontalOptions="Center"
+                               Spacing="12">
+            <Label Text="Zászló mód 🚩" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding IsFlagMode}" />
+        </HorizontalStackLayout>
+    </Grid>
 </ContentPage>

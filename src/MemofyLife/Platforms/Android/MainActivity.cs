@@ -4,7 +4,7 @@ using Android.OS;
 
 namespace MemofyLife
 {
-    [Activity(Theme = "@style/Maui.SplashTheme",
+    [Activity(Theme = "@style/MemofyLife.SplashTheme",
         MainLauncher = true,
         LaunchMode = LaunchMode.SingleTop,
         ConfigurationChanges = ConfigChanges.ScreenSize |

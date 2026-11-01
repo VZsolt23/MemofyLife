@@ -13,8 +13,8 @@ public sealed class MinesweeperGame : IGame
 
     public IReadOnlyList<GameVariant> Variants { get; } =
     [
-        new("easy", "Könnyű"),
-        new("medium", "Közepes"),
-        new("hard", "Nehéz"),
+        new(MinesweeperDifficulty.Easy, "Könnyű"),
+        new(MinesweeperDifficulty.Medium, "Közepes"),
+        new(MinesweeperDifficulty.Hard, "Nehéz"),
     ];
 }
