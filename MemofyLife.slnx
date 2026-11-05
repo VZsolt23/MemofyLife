@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/MemofyLife/MemofyLife.csproj" />
+    <Project Path="src/MemofyLife.App/MemofyLife.App.csproj" />
     <Project Path="src/MemofyLife.Minesweeper.Engine/MemofyLife.Minesweeper.Engine.csproj" />
   </Folder>
   <Folder Name="/tests/">
