@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace MemofyLife.Core.ViewModels
+namespace MemofyLife.Common.ViewModels
 {
     public abstract partial class BaseViewModel : ObservableObject
     {

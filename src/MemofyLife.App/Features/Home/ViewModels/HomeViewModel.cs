@@ -1,4 +1,4 @@
-using MemofyLife.Core.ViewModels;
+using MemofyLife.Common.ViewModels;
 
 namespace MemofyLife.Features.Home.ViewModels;
 

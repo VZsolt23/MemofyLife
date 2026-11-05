@@ -1,4 +1,4 @@
-using MemofyLife.Core.Interfaces;
+using MemofyLife.Common.Interfaces;
 
 namespace MemofyLife.Navigation;
 

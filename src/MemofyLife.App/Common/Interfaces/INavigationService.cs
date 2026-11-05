@@ -1,4 +1,4 @@
-namespace MemofyLife.Core.Interfaces;
+namespace MemofyLife.Common.Interfaces;
 
 public interface INavigationService
 {

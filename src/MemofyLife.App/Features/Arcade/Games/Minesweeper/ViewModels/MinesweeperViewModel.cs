@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MemofyLife.Core.Interfaces;
-using MemofyLife.Core.ViewModels;
+using MemofyLife.Common.Interfaces;
+using MemofyLife.Common.ViewModels;
 using MemofyLife.Minesweeper.Engine;
 using MemofyLife.Minesweeper.Engine.Enums;
 using MemofyLife.Navigation;

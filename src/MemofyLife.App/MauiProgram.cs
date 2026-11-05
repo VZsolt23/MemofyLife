@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
-using MemofyLife.Core.Interfaces;
+using MemofyLife.Common.Interfaces;
 using MemofyLife.Navigation;
 using MemofyLife.Features.Home;
 using MemofyLife.Features.Arcade.Catalog;

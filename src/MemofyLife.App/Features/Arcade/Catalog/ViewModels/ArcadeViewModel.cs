@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
-using MemofyLife.Core.Interfaces;
-using MemofyLife.Core.ViewModels;
+using MemofyLife.Common.Interfaces;
+using MemofyLife.Common.ViewModels;
 using MemofyLife.Features.Arcade.Shared;
 
 namespace MemofyLife.Features.Arcade.Catalog.ViewModels;

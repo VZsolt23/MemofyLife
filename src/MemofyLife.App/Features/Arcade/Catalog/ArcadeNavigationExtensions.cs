@@ -1,4 +1,4 @@
-using MemofyLife.Core.Interfaces;
+using MemofyLife.Common.Interfaces;
 using MemofyLife.Features.Arcade.Shared;
 using MemofyLife.Navigation;
 
