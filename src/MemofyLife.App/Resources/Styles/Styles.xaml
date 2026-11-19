@@ -249,7 +249,7 @@
 
     <Style TargetType="Entry">
         <Setter Property="TextColor" Value="{DynamicResource OnSurface}" />
-        <Setter Property="PlaceholderColor" Value="{DynamicResource OnSurfaceVariant}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Outline}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="AppRegular" />
         <Setter Property="FontSize" Value="{StaticResource FontBody}" />
@@ -258,7 +258,7 @@
 
     <Style TargetType="Editor">
         <Setter Property="TextColor" Value="{DynamicResource OnSurface}" />
-        <Setter Property="PlaceholderColor" Value="{DynamicResource OnSurfaceVariant}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource Outline}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="AppRegular" />
         <Setter Property="FontSize" Value="{StaticResource FontBody}" />

@@ -42,6 +42,12 @@ public static class HungarianFormat
         return date.ToString("yyyy. MMM d.", Culture);
     }
 
+    /// <summary>Év nélkül („nov. 19.”), ahol az évet a környezet (pl. hónap-fejléc) mutatja.</summary>
+    public static string ShortDate(DateOnly date)
+    {
+        return date.ToString("MMM d.", Culture);
+    }
+
     /// <summary>Egész szám szóközös ezres tagolással is („128 450”).</summary>
     public static bool TryParseInt(string? text, out int value)
     {

@@ -40,7 +40,7 @@
                                     <Ellipse WidthRequest="44" HeightRequest="44" Fill="{Binding SwatchContainer}" />
                                     <Ellipse WidthRequest="28" HeightRequest="28" Fill="{Binding Swatch}" />
                                     <c:TintedImage Source="check_solid_full.png"
-                                                   TintColor="White"
+                                                   TintColor="{Binding CheckColor}"
                                                    WidthRequest="14"
                                                    HeightRequest="14"
                                                    IsVisible="{Binding IsSelected}" />

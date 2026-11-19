@@ -1,3 +1,7 @@
+#if ANDROID
+using Microsoft.Maui.Platform;
+#endif
+
 namespace MemofyLife.Common.Theming;
 
 /// <summary>
@@ -73,6 +77,9 @@ public sealed class ThemeService
             CommunityToolkit.Maui.Core.Platform.StatusBar.SetStyle(IsDark
                 ? CommunityToolkit.Maui.Core.StatusBarStyle.LightContent
                 : CommunityToolkit.Maui.Core.StatusBarStyle.DarkContent);
+#if ANDROID
+            ApplyNavigationBar(neutral.Surface, IsDark);
+#endif
         }
         catch (Exception)
         {
@@ -80,6 +87,30 @@ public sealed class ThemeService
         }
 #endif
     }
+
+#if ANDROID
+    // A rendszer alsó navigációs sávja az alsó fülsávval (Surface) egyezzen.
+    private static void ApplyNavigationBar(Color color, bool dark)
+    {
+        global::Android.Views.Window? window = Platform.CurrentActivity?.Window;
+
+        if (window is null)
+        {
+            return;
+        }
+
+#pragma warning disable CA1422 // Android 15+ alatt elavult, de a régebbi rendszereken kell.
+        window.SetNavigationBarColor(color.ToPlatform());
+#pragma warning restore CA1422
+        AndroidX.Core.View.WindowInsetsControllerCompat? insets =
+            AndroidX.Core.View.WindowCompat.GetInsetsController(window, window.DecorView);
+
+        if (insets is not null)
+        {
+            insets.AppearanceLightNavigationBars = !dark;
+        }
+    }
+#endif
 
     private void Apply()
     {

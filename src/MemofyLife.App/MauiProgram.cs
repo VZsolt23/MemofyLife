@@ -23,6 +23,10 @@ namespace MemofyLife
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+#if ANDROID
+                .ConfigureMauiHandlers(handlers =>
+                    handlers.AddHandler<Shell, Platforms.Android.Theming.AppShellRenderer>())
+#endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("JetBrainsMonoNL-Regular.ttf", "AppRegular");

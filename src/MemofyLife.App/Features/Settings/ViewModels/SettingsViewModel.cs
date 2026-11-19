@@ -71,6 +71,9 @@ public sealed partial class SchemeOptionViewModel : ObservableObject
     private Color swatchContainer = Colors.Transparent;
 
     [ObservableProperty]
+    private Color checkColor = Colors.White;
+
+    [ObservableProperty]
     private bool isSelected;
 
     public SchemeOptionViewModel(ColorSchemeDefinition definition)
@@ -87,6 +90,7 @@ public sealed partial class SchemeOptionViewModel : ObservableObject
         SchemePalette palette = dark ? _definition.Dark : _definition.Light;
         Swatch = palette.Primary;
         SwatchContainer = palette.Container;
+        CheckColor = palette.OnPrimary;
         IsSelected = selected;
     }
 }

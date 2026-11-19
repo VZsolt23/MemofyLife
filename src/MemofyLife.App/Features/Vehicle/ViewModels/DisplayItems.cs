@@ -25,7 +25,7 @@ public sealed record LogItemViewModel(
 
     public static LogItemViewModel From(LogEntry e)
     {
-        string subtitle = $"{HungarianFormat.Date(e.Date)} · {HungarianFormat.Km(e.OdometerKm)}";
+        string subtitle = $"{HungarianFormat.ShortDate(e.Date)} · {HungarianFormat.Km(e.OdometerKm)}";
 
         return e.Type switch
         {
