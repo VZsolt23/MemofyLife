@@ -7,6 +7,7 @@ using MemofyLife.Data;
 using MemofyLife.Navigation;
 using MemofyLife.Features.Home;
 using MemofyLife.Features.Vehicle;
+using MemofyLife.Features.Settings;
 using MemofyLife.Features.Arcade.Catalog;
 using MemofyLife.Features.Arcade.Games;
 
@@ -40,6 +41,7 @@ namespace MemofyLife
             builder.Services
                 .AddHomeFeature()
                 .AddVehicleFeature()
+                .AddSettingsFeature()
                 .AddArcadeFeature()
                 .AddGameFeature();
 
