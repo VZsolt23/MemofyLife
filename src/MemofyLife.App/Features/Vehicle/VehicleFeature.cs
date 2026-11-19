@@ -18,11 +18,20 @@ public static class VehicleFeature
         services.AddTransient<VehicleOverviewViewModel>();
         services.AddTransient<VehicleEditPage>();
         services.AddTransient<VehicleEditViewModel>();
+        services.AddTransient<EntryEditPage>();
+        services.AddTransient<EntryEditViewModel>();
+        services.AddTransient<VehicleLogPage>();
+        services.AddTransient<VehicleLogViewModel>();
+        services.AddTransient<ReminderEditPage>();
+        services.AddTransient<ReminderEditViewModel>();
         return services;
     }
 
     public static void RegisterRoutes()
     {
         Routing.RegisterRoute(Routes.VehicleEditPage, typeof(VehicleEditPage));
+        Routing.RegisterRoute(Routes.EntryEditPage, typeof(EntryEditPage));
+        Routing.RegisterRoute(Routes.VehicleLogPage, typeof(VehicleLogPage));
+        Routing.RegisterRoute(Routes.ReminderEditPage, typeof(ReminderEditPage));
     }
 }
