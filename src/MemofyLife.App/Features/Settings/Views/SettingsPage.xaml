@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:MemofyLife.Common.Controls"
+             xmlns:vm="clr-namespace:MemofyLife.Features.Settings.ViewModels"
+             x:Class="MemofyLife.Features.Settings.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Shell.TabBarIsVisible="False"
+             Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout Padding="{StaticResource PagePadding}" Spacing="12">
+
+            <!-- Színséma -->
+            <c:SectionHeader Title="Színséma" />
+            <!-- 3 oszlop: az elemek jobb/alsó térközét a negatív margó egyenlíti ki -->
+            <FlexLayout BindableLayout.ItemsSource="{Binding Schemes}"
+                        Wrap="Wrap"
+                        JustifyContent="Start"
+                        Margin="0,0,-8,0">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="vm:SchemeOptionViewModel">
+                        <ContentView FlexLayout.Basis="33.33%" Padding="0,0,8,8">
+                        <Border Style="{StaticResource Card}"
+                                Padding="8,14"
+                                StrokeThickness="2"
+                                Stroke="Transparent">
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Stroke" Value="{DynamicResource PrimaryBrush}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SettingsViewModel}}, Path=SelectSchemeCommand, x:DataType=vm:SettingsViewModel}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="8">
+                                <!-- Minta: tónusos háttér, rajta a fő szín -->
+                                <Grid HorizontalOptions="Center">
+                                    <Ellipse WidthRequest="44" HeightRequest="44" Fill="{Binding SwatchContainer}" />
+                                    <Ellipse WidthRequest="28" HeightRequest="28" Fill="{Binding Swatch}" />
+                                    <c:TintedImage Source="check_solid_full.png"
+                                                   TintColor="{Binding CheckColor}"
+                                                   WidthRequest="14"
+                                                   HeightRequest="14"
+                                                   IsVisible="{Binding IsSelected}" />
+                                </Grid>
+                                <Label Text="{Binding Name}"
+                                       Style="{StaticResource TextStrong}"
+                                       FontSize="12"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                        </ContentView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <!-- Megjelenés -->
+            <c:SectionHeader Title="Megjelenés" />
+            <FlexLayout BindableLayout.ItemsSource="{Binding Modes}" Wrap="Wrap" Margin="0,0,-8,0">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ModeOptionViewModel">
+                        <ContentView FlexLayout.Basis="33.33%" Padding="0,0,8,0">
+                        <Border Style="{StaticResource Card}"
+                                Padding="8,14"
+                                StrokeThickness="2"
+                                Stroke="Transparent">
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Stroke" Value="{DynamicResource PrimaryBrush}" />
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryContainer}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SettingsViewModel}}, Path=SelectModeCommand, x:DataType=vm:SettingsViewModel}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="8">
+                                <c:TintedImage Source="{Binding Icon}"
+                                               TintColor="{DynamicResource OnSurface}"
+                                               HorizontalOptions="Center" />
+                                <Label Text="{Binding Name}"
+                                       Style="{StaticResource TextStrong}"
+                                       FontSize="12"
+                                       HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                        </ContentView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+            <Label Text="A „Rendszer” a telefon világos/sötét beállítását követi."
+                   Style="{StaticResource TextCaption}"
+                   Margin="4,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -7,7 +7,7 @@ public sealed class MinesweeperGame : IGame
 {
     public string Key => "minesweeper";
     public string DisplayName => "Aknakereső";
-    public string Icon => "gamepad_solid_full.png";
+    public string Icon => "bomb_solid_full.png";
     public string Route => Routes.MinesweeperPage;
     public BestScoreKind BestScoreKind => BestScoreKind.LowerIsBetter;
 

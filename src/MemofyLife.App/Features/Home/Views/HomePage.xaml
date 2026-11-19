@@ -1,40 +1,103 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:MemofyLife.Common.Controls"
+             xmlns:theme="clr-namespace:MemofyLife.Common.Theming"
+             xmlns:vehicle="clr-namespace:MemofyLife.Features.Vehicle.Views"
              xmlns:vm="clr-namespace:MemofyLife.Features.Home.ViewModels"
              x:Class="MemofyLife.Features.Home.Views.HomePage"
              x:DataType="vm:HomeViewModel"
+             Shell.NavBarIsVisible="False"
              Title="{Binding Title}">
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="16">
+        <VerticalStackLayout Padding="{StaticResource PagePadding}" Spacing="12">
 
-            <!-- Jármű kártya -->
-            <Border Style="{StaticResource Card}">
+            <!-- Üdvözlés -->
+            <Grid ColumnDefinitions="*,Auto" Margin="4,16,0,4">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="{Binding TodayText}" Style="{StaticResource TextCaption}" />
+                    <Label Text="{Binding Greeting}" Style="{StaticResource TextDisplay}" />
+                </VerticalStackLayout>
+                <c:IconAction Grid.Column="1"
+                              Icon="gear_solid_full.png"
+                              Description="Beállítások"
+                              Command="{Binding OpenSettingsCommand}" />
+            </Grid>
+
+            <!-- Jármű: kiemelő kártya a séma színével -->
+            <Border Style="{StaticResource HeroCard}" IsVisible="{Binding HasVehicle}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding OpenVehicleCommand}" />
                 </Border.GestureRecognizers>
-                <VerticalStackLayout Spacing="4">
-                    <Label Text="🚗 Jármű" Style="{StaticResource Caption}" />
-
-                    <VerticalStackLayout IsVisible="{Binding HasVehicle}" Spacing="4">
-                        <Label Text="{Binding VehicleName}" Style="{StaticResource SectionTitle}" />
-                        <Label Text="{Binding CurrentKmText}" Style="{StaticResource BigNumber}" />
-                        <VerticalStackLayout IsVisible="{Binding HasReminder}" Spacing="2">
-                            <Label Text="{Binding NextReminder.Title}" FontFamily="OpenSansSemibold" />
-                            <Label Text="{Binding NextReminder.StatusText}"
-                                   TextColor="{Binding NextReminder.StatusColor}" />
-                        </VerticalStackLayout>
-                    </VerticalStackLayout>
-
-                    <Label Text="Még nincs autó rögzítve. Koppints ide a hozzáadáshoz.">
-                        <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding HasVehicle}" Value="True">
-                                <Setter Property="IsVisible" Value="False" />
-                            </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
-                </VerticalStackLayout>
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="4">
+                    <Label Text="{Binding VehicleName}"
+                           Style="{StaticResource TextStrong}"
+                           TextColor="{DynamicResource OnPrimary}"
+                           Opacity="0.85" />
+                    <c:TintedImage Grid.Column="1"
+                                   Source="car_solid_full.png"
+                                   TintColor="{DynamicResource OnPrimary}" />
+                    <Label Grid.Row="1"
+                           Grid.ColumnSpan="2"
+                           Text="{Binding CurrentKmText}"
+                           Style="{StaticResource TextDisplay}"
+                           TextColor="{DynamicResource OnPrimary}" />
+                </Grid>
             </Border>
+
+            <!-- Nincs még jármű -->
+            <Border Style="{StaticResource Card}">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border" Binding="{Binding HasVehicle}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenVehicleCommand}" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <c:IconBubble Icon="car_solid_full.png" Color="{x:Static theme:SemanticColors.Vehicle}" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Add meg az autódat" Style="{StaticResource TextStrong}" />
+                        <Label Text="Km, tankolás, szerviz egy helyen." Style="{StaticResource TextCaption}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Legközelebbi karbantartás -->
+            <VerticalStackLayout IsVisible="{Binding HasReminder}" Spacing="0">
+                <c:SectionHeader Title="Karbantartás"
+                                 ActionText="Összes"
+                                 Command="{Binding OpenVehicleCommand}" />
+                <Border Style="{StaticResource ListCard}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenVehicleCommand}" />
+                    </Border.GestureRecognizers>
+                    <vehicle:ReminderRow BindingContext="{Binding NextReminder}" />
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Játék -->
+            <VerticalStackLayout IsVisible="{Binding HasFeaturedGame}" Spacing="0">
+                <c:SectionHeader Title="Egy kis szünet?" />
+                <Border Style="{StaticResource Card}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenGameCommand}" />
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <c:IconBubble Icon="{Binding FeaturedGameIcon}" Color="{Binding ArcadeColor}" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="{Binding FeaturedGame.DisplayName}" Style="{StaticResource TextStrong}" />
+                            <Label Text="Indítsd egy koppintással" Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                        <c:TintedImage Grid.Column="2"
+                                       Source="play_solid_full.png"
+                                       TintColor="{DynamicResource Accent}"
+                                       WidthRequest="16"
+                                       HeightRequest="16" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

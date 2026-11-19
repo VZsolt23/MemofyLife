@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#512BD4</color>
-    <color name="colorPrimaryDark">#2B0B98</color>
-    <color name="colorAccent">#2B0B98</color>
+    <!--
+        Natív Material-színek (mezők fókuszkerete, választó párbeszédek). Futás közben nem
+        követik a választott színsémát, ezért semleges árnyalat, ami mind az öt sémához illik.
+    -->
+    <color name="colorPrimary">#5F5E68</color>
+    <color name="colorPrimaryDark">#F4F4F7</color>
+    <color name="colorAccent">#5F5E68</color>
 </resources>

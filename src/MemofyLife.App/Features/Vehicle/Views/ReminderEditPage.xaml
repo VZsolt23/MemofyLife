@@ -8,84 +8,103 @@
              Shell.TabBarIsVisible="False"
              Title="{Binding Title}">
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="6">
+        <VerticalStackLayout Padding="{StaticResource PagePadding}" Spacing="12">
 
-            <Label Text="Kategória" Style="{StaticResource Caption}" />
-            <Picker ItemsSource="{Binding Categories}"
-                    SelectedItem="{Binding SelectedCategory}"
-                    ItemDisplayBinding="{Binding Name, x:DataType=models:ServiceCategory}" />
-            <Label Text="Ilyen kategóriájú szerviz rögzítésekor az emlékeztető automatikusan teljesül."
-                   Style="{StaticResource Caption}" />
+            <!-- Mi és milyen kategória -->
+            <Border Style="{StaticResource Card}" Margin="0,8,0,0">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Kategória" Style="{StaticResource FieldLabel}" Margin="4,0,0,0" />
+                    <Picker ItemsSource="{Binding Categories}"
+                            SelectedItem="{Binding SelectedCategory}"
+                            ItemDisplayBinding="{Binding Name, x:DataType=models:ServiceCategory}" />
+                    <Label Text="Ilyen kategóriájú szerviz rögzítésekor az emlékeztető magától teljesül."
+                           Style="{StaticResource TextCaption}"
+                           Margin="4,0,0,0" />
 
-            <Label Text="Megnevezés" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-            <Entry Text="{Binding ReminderTitle}" Placeholder="pl. Olajcsere" />
+                    <Label Text="Megnevezés" Style="{StaticResource FieldLabel}" />
+                    <Entry Text="{Binding ReminderTitle}" Placeholder="Olajcsere" />
+                </VerticalStackLayout>
+            </Border>
 
-            <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
-                <Label Text="Ismétlődő" VerticalOptions="Center" />
-                <Switch Grid.Column="1" IsToggled="{Binding IsRecurring}" />
-            </Grid>
+            <!-- Mikor esedékes -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="2">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                            <Label Text="Ismétlődő" Style="{StaticResource TextStrong}" />
+                            <Label Text="Bizonyos km vagy hónap után újra esedékes."
+                                   Style="{StaticResource TextCaption}" />
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding IsRecurring}" />
+                    </Grid>
 
-            <!-- Ismétlődő: intervallum + utolsó elvégzés -->
-            <VerticalStackLayout IsVisible="{Binding IsRecurring}" Spacing="6">
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                    <VerticalStackLayout>
-                        <Label Text="Ennyi km-enként" Style="{StaticResource Caption}" />
-                        <Entry Text="{Binding IntervalKmText}" Keyboard="Numeric" Placeholder="pl. 15000" />
+                    <VerticalStackLayout IsVisible="{Binding IsRecurring}" Spacing="2">
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Km-enként" Style="{StaticResource FieldLabel}" />
+                                <Entry Text="{Binding IntervalKmText}" Keyboard="Numeric" Placeholder="15000" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Havonta" Style="{StaticResource FieldLabel}" />
+                                <Entry Text="{Binding IntervalMonthsText}" Keyboard="Numeric" Placeholder="12" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Label Text="Elég az egyiket megadni. Ha mindkettő van, amelyik előbb jön."
+                               Style="{StaticResource TextCaption}"
+                               Margin="4,0,0,0" />
+
+                        <Label Text="Utoljára elvégezve (km)" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding LastDoneKmText}" Keyboard="Numeric" />
+                        <Label Text="Utoljára elvégezve (dátum)" Style="{StaticResource FieldLabel}" />
+                        <DatePicker Date="{Binding LastDoneDate}" Format="yyyy. MM. dd." />
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="1">
-                        <Label Text="Ennyi havonta" Style="{StaticResource Caption}" />
-                        <Entry Text="{Binding IntervalMonthsText}" Keyboard="Numeric" Placeholder="pl. 12" />
+
+                    <VerticalStackLayout IsVisible="{Binding IsOneOff}" Spacing="2">
+                        <Label Text="Esedékes km-állás" Style="{StaticResource FieldLabel}" />
+                        <Entry Text="{Binding DueKmText}" Keyboard="Numeric" Placeholder="Nem kötelező" />
+                        <Grid ColumnDefinitions="*,Auto" Margin="4,8,0,0">
+                            <Label Text="Esedékes dátum" Style="{StaticResource TextStrong}" VerticalOptions="Center" />
+                            <Switch Grid.Column="1" IsToggled="{Binding HasDueDate}" />
+                        </Grid>
+                        <DatePicker Date="{Binding DueDate}"
+                                    Format="yyyy. MM. dd."
+                                    IsVisible="{Binding HasDueDate}" />
                     </VerticalStackLayout>
-                </Grid>
-                <Label Text="Elég az egyiket megadni; ha mindkettő van, amelyik előbb jön." Style="{StaticResource Caption}" />
-
-                <Label Text="Utoljára elvégezve (km)" Style="{StaticResource Caption}" Margin="0,8,0,0" />
-                <Entry Text="{Binding LastDoneKmText}" Keyboard="Numeric" />
-                <Label Text="Utoljára elvégezve (dátum)" Style="{StaticResource Caption}" />
-                <DatePicker Date="{Binding LastDoneDate}" Format="yyyy. MM. dd." />
-            </VerticalStackLayout>
-
-            <!-- Egyszeri: közvetlen esedékesség -->
-            <VerticalStackLayout IsVisible="{Binding IsOneOff}" Spacing="6">
-                <Label Text="Esedékes km-állás" Style="{StaticResource Caption}" />
-                <Entry Text="{Binding DueKmText}" Keyboard="Numeric" Placeholder="nem kötelező" />
-                <Grid ColumnDefinitions="*,Auto">
-                    <Label Text="Esedékes dátum" VerticalOptions="Center" />
-                    <Switch Grid.Column="1" IsToggled="{Binding HasDueDate}" />
-                </Grid>
-                <DatePicker Date="{Binding DueDate}"
-                            Format="yyyy. MM. dd."
-                            IsVisible="{Binding HasDueDate}" />
-            </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
 
             <!-- Előzetes jelzés -->
-            <Label Text="Mikortól jelezzen előre?" Style="{StaticResource SectionTitle}" Margin="0,12,0,0" />
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                <VerticalStackLayout>
-                    <Label Text="km-rel előtte" Style="{StaticResource Caption}" />
-                    <Entry Text="{Binding NotifyBeforeKmText}"
-                           Keyboard="Numeric"
-                           Placeholder="{Binding NotifyKmPlaceholder}" />
-                </VerticalStackLayout>
-                <VerticalStackLayout Grid.Column="1">
-                    <Label Text="nappal előtte" Style="{StaticResource Caption}" />
-                    <Entry Text="{Binding NotifyBeforeDaysText}"
-                           Keyboard="Numeric"
-                           Placeholder="{Binding NotifyDaysPlaceholder}" />
-                </VerticalStackLayout>
-            </Grid>
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Mikortól jelezzen előre?" Style="{StaticResource TextStrong}" Margin="4,0,0,0" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="km-rel előtte" Style="{StaticResource FieldLabel}" />
+                            <Entry Text="{Binding NotifyBeforeKmText}"
+                                   Keyboard="Numeric"
+                                   Placeholder="{Binding NotifyKmPlaceholder}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="nappal előtte" Style="{StaticResource FieldLabel}" />
+                            <Entry Text="{Binding NotifyBeforeDaysText}"
+                                   Keyboard="Numeric"
+                                   Placeholder="{Binding NotifyDaysPlaceholder}" />
+                        </VerticalStackLayout>
+                    </Grid>
 
-            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsEdit}" Margin="0,8,0,0">
-                <Label Text="Aktív" VerticalOptions="Center" />
-                <Switch Grid.Column="1" IsToggled="{Binding IsActive}" />
-            </Grid>
+                    <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsEdit}" Margin="4,12,0,0">
+                        <Label Text="Aktív" Style="{StaticResource TextStrong}" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding IsActive}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
 
             <Label Text="{Binding ErrorText}"
-                   Style="{StaticResource ErrorText}"
+                   Style="{StaticResource TextError}"
                    IsVisible="{Binding HasError}"
-                   Margin="0,8,0,0" />
+                   Margin="4,0" />
 
-            <Button Text="Mentés" Command="{Binding SaveCommand}" Margin="0,12,0,0" />
+            <Button Text="Mentés" Command="{Binding SaveCommand}" Margin="0,4,0,0" />
             <Button Text="Törlés"
                     Style="{StaticResource DangerButton}"
                     Command="{Binding DeleteCommand}"

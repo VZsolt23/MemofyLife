@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Térközök, lekerekítések és betűméretek: 4/8-as rács. -->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Térköz -->
+    <x:Double x:Key="SpaceXs">4</x:Double>
+    <x:Double x:Key="SpaceS">8</x:Double>
+    <x:Double x:Key="SpaceM">12</x:Double>
+    <x:Double x:Key="SpaceL">16</x:Double>
+    <x:Double x:Key="SpaceXl">24</x:Double>
+
+    <Thickness x:Key="PagePadding">16,8,16,24</Thickness>
+    <Thickness x:Key="CardPadding">16</Thickness>
+    <Thickness x:Key="SectionMargin">4,16,4,0</Thickness>
+
+    <!-- Lekerekítés -->
+    <x:Double x:Key="RadiusCard">16</x:Double>
+    <x:Double x:Key="RadiusField">12</x:Double>
+    <x:Int32 x:Key="RadiusButton">24</x:Int32>
+    <x:Int32 x:Key="RadiusChip">18</x:Int32>
+
+    <!-- Betűméret -->
+    <x:Double x:Key="FontDisplay">28</x:Double>
+    <x:Double x:Key="FontTitle">20</x:Double>
+    <x:Double x:Key="FontHeadline">16</x:Double>
+    <x:Double x:Key="FontBody">14</x:Double>
+    <x:Double x:Key="FontCaption">12</x:Double>
+    <x:Double x:Key="FontOverline">11</x:Double>
+</ResourceDictionary>

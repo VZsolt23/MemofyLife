@@ -7,44 +7,54 @@
              Shell.TabBarIsVisible="False"
              Title="{Binding Title}">
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="6">
-            <Label Text="Név" Style="{StaticResource Caption}" />
-            <Entry Text="{Binding Name}" Placeholder="Saját autó" />
+        <VerticalStackLayout Padding="{StaticResource PagePadding}" Spacing="12">
 
-            <Label Text="Gyártó" Style="{StaticResource Caption}" />
-            <Entry Text="{Binding Make}" Placeholder="pl. Toyota" />
+            <Border Style="{StaticResource Card}" Margin="0,8,0,0">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Név" Style="{StaticResource FieldLabel}" Margin="4,0,0,0" />
+                    <Entry Text="{Binding Name}" Placeholder="Saját autó" />
 
-            <Label Text="Típus" Style="{StaticResource Caption}" />
-            <Entry Text="{Binding Model}" Placeholder="pl. Corolla" />
+                    <Label Text="Gyártó" Style="{StaticResource FieldLabel}" />
+                    <Entry Text="{Binding Make}" Placeholder="Toyota" />
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                <VerticalStackLayout>
-                    <Label Text="Évjárat" Style="{StaticResource Caption}" />
-                    <Entry Text="{Binding ModelYearText}" Keyboard="Numeric" Placeholder="2018" />
+                    <Label Text="Típus" Style="{StaticResource FieldLabel}" />
+                    <Entry Text="{Binding Model}" Placeholder="Corolla" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Évjárat" Style="{StaticResource FieldLabel}" />
+                            <Entry Text="{Binding ModelYearText}" Keyboard="Numeric" Placeholder="2018" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="Rendszám" Style="{StaticResource FieldLabel}" />
+                            <Entry Text="{Binding LicensePlate}" Placeholder="ABC-123" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="Üzemanyag" Style="{StaticResource FieldLabel}" />
+                    <Picker ItemsSource="{Binding FuelTypes}"
+                            SelectedItem="{Binding SelectedFuelType}"
+                            ItemDisplayBinding="{Binding Label, x:DataType=vm:FuelTypeOption}"
+                            Title="Válassz" />
                 </VerticalStackLayout>
-                <VerticalStackLayout Grid.Column="1">
-                    <Label Text="Rendszám" Style="{StaticResource Caption}" />
-                    <Entry Text="{Binding LicensePlate}" Placeholder="ABC-123" />
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Kezdő km-állás" Style="{StaticResource FieldLabel}" Margin="4,0,0,0" />
+                    <Entry Text="{Binding InitialKmText}" Keyboard="Numeric" />
+                    <Label Text="Az óraállás az első bejegyzés előtt. Ennél kisebb km-re figyelmeztetünk."
+                           Style="{StaticResource TextCaption}"
+                           Margin="4,0,0,0" />
                 </VerticalStackLayout>
-            </Grid>
-
-            <Label Text="Üzemanyag" Style="{StaticResource Caption}" />
-            <Picker ItemsSource="{Binding FuelTypes}"
-                    SelectedItem="{Binding SelectedFuelType}"
-                    ItemDisplayBinding="{Binding Label, x:DataType=vm:FuelTypeOption}"
-                    Title="Válassz" />
-
-            <Label Text="Kezdő km-állás" Style="{StaticResource Caption}" />
-            <Entry Text="{Binding InitialKmText}" Keyboard="Numeric" />
-            <Label Text="Az óraállás az első bejegyzés előtt; ennél kisebb km-re figyelmeztetünk."
-                   Style="{StaticResource Caption}" />
+            </Border>
 
             <Label Text="{Binding ErrorText}"
-                   Style="{StaticResource ErrorText}"
+                   Style="{StaticResource TextError}"
                    IsVisible="{Binding HasError}"
-                   Margin="0,8,0,0" />
+                   Margin="4,0" />
 
-            <Button Text="Mentés" Command="{Binding SaveCommand}" Margin="0,12,0,0" />
+            <Button Text="Mentés" Command="{Binding SaveCommand}" Margin="0,4,0,0" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

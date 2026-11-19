@@ -1,4 +1,5 @@
 using MemofyLife.Common.Formatting;
+using MemofyLife.Common.Theming;
 using MemofyLife.Vehicle.Domain;
 using MemofyLife.Vehicle.Models;
 
@@ -7,36 +8,44 @@ namespace MemofyLife.Features.Vehicle.ViewModels;
 /// <summary>A napló egy sora megjelenítésre előkészítve.</summary>
 public sealed record LogItemViewModel(
     int Id,
-    string Icon,
+    EntryType Type,
+    DateOnly Date,
+    int? Cost,
     string Title,
     string Subtitle,
-    string? Detail,
-    string? CostText)
+    string? Detail)
 {
     public bool HasDetail => !string.IsNullOrEmpty(Detail);
 
+    public string? CostText => Cost is { } c ? HungarianFormat.Forint(c) : null;
+
+    public ImageSource Icon => EntryVisuals.Icon(Type);
+
+    public Color Color => SemanticColors.For(Type);
+
     public static LogItemViewModel From(LogEntry e)
     {
-        string subtitle = $"{HungarianFormat.Date(e.Date)} · {HungarianFormat.Km(e.OdometerKm)}";
-        string? cost = e.TotalCost is { } c ? HungarianFormat.Forint(c) : null;
+        string subtitle = $"{HungarianFormat.ShortDate(e.Date)} · {HungarianFormat.Km(e.OdometerKm)}";
 
         return e.Type switch
         {
             EntryType.Fuel => new LogItemViewModel(
                 e.Id,
-                "⛽",
+                e.Type,
+                e.Date,
+                e.TotalCost,
                 FuelTitle(e),
                 subtitle,
-                Join(FuelDetail(e), e.Note),
-                cost),
+                Join(FuelDetail(e), e.Note)),
             EntryType.Service => new LogItemViewModel(
                 e.Id,
-                "🔧",
+                e.Type,
+                e.Date,
+                e.TotalCost,
                 Join(e.CategoryName ?? "Szerviz", e.Description, separator: " · ")!,
                 subtitle,
-                Join(e.Workshop, e.Note),
-                cost),
-            _ => new LogItemViewModel(e.Id, "📍", "Km-állás", subtitle, e.Note, cost),
+                Join(e.Workshop, e.Note)),
+            _ => new LogItemViewModel(e.Id, e.Type, e.Date, e.TotalCost, "Km-állás", subtitle, e.Note),
         };
     }
 
@@ -66,19 +75,60 @@ public sealed record ReminderItemViewModel(
     int Id,
     string Title,
     string StatusText,
+    string StatusLabel,
     string? DueText,
     Color StatusColor,
     bool IsActive)
 {
+    public ImageSource Icon => "wrench_solid_full.png";
+
     public static ReminderItemViewModel From(ReminderInfo r)
     {
         return new ReminderItemViewModel(
             r.Id,
             r.Title,
             r.IsActive ? ReminderText.Status(r.Status) : "Lezárva",
+            r.IsActive ? ReminderText.Label(r.Status.State) : "Lezárva",
             ReminderText.Due(r.DueKm, r.DueDate),
-            r.IsActive ? ReminderText.StateColor(r.Status.State) : Colors.Gray,
+            r.IsActive ? SemanticColors.For(r.Status.State) : SemanticColors.Neutral,
             r.IsActive);
+    }
+}
+
+/// <summary>A napló egy hónapja: fejléc a havi összeggel, alatta a bejegyzések.</summary>
+public sealed class LogMonthGroup : List<LogItemViewModel>
+{
+    public LogMonthGroup(DateOnly month, IEnumerable<LogItemViewModel> items)
+        : base(items)
+    {
+        Title = month.ToString("yyyy. MMMM", HungarianFormat.Culture);
+        int total = this.Sum(i => i.Cost ?? 0);
+        TotalText = total > 0 ? HungarianFormat.Forint(total) : string.Empty;
+    }
+
+    public string Title { get; }
+
+    public string TotalText { get; }
+
+    public static IReadOnlyList<LogMonthGroup> Build(IEnumerable<LogItemViewModel> items)
+    {
+        return items
+            .GroupBy(i => new DateOnly(i.Date.Year, i.Date.Month, 1))
+            .Select(g => new LogMonthGroup(g.Key, g))
+            .ToList();
+    }
+}
+
+public static class EntryVisuals
+{
+    public static ImageSource Icon(EntryType type)
+    {
+        return type switch
+        {
+            EntryType.Fuel => "gas_pump_solid_full.png",
+            EntryType.Service => "wrench_solid_full.png",
+            _ => "gauge_high_solid_full.png",
+        };
     }
 }
 
@@ -125,14 +175,14 @@ public static class ReminderText
         return parts.Count == 0 ? null : $"Esedékes: {string.Join(" · ", parts)}";
     }
 
-    public static Color StateColor(ReminderState state)
+    public static string Label(ReminderState state)
     {
         return state switch
         {
-            ReminderState.Overdue => Color.FromArgb("#D93025"),
-            ReminderState.DueSoon => Color.FromArgb("#E37400"),
-            ReminderState.Ok => Color.FromArgb("#188038"),
-            _ => Colors.Gray,
+            ReminderState.Overdue => "Lejárt",
+            ReminderState.DueSoon => "Közeleg",
+            ReminderState.Ok => "Rendben",
+            _ => "Nincs adat",
         };
     }
 }
