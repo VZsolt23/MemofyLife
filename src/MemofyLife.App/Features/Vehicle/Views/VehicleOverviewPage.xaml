@@ -61,14 +61,17 @@
                 <!-- Gyors rögzítés -->
                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
                     <Button Text="📍 Km"
+                            Padding="6,10"
                             Command="{Binding AddEntryCommand}"
                             CommandParameter="Odometer" />
                     <Button Grid.Column="1"
                             Text="⛽ Tankolás"
+                            Padding="6,10"
                             Command="{Binding AddEntryCommand}"
                             CommandParameter="Fuel" />
                     <Button Grid.Column="2"
                             Text="🔧 Szerviz"
+                            Padding="6,10"
                             Command="{Binding AddEntryCommand}"
                             CommandParameter="Service" />
                 </Grid>

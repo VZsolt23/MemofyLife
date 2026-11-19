@@ -212,6 +212,9 @@ public sealed partial class EntryEditViewModel : BaseViewModel, IQueryAttributab
         Description = entry.Description;
         Workshop = entry.Workshop;
         Note = entry.Note;
+
+        int currentKm = await _vehicles.GetCurrentOdometerAsync(entry.VehicleId);
+        LastKmHint = $"Eddigi legnagyobb: {HungarianFormat.Km(currentKm)}";
     }
 
     private EntryInput? BuildInput()
