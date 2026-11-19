@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using MemofyLife.Common.Interfaces;
 using MemofyLife.Common.Services;
+using MemofyLife.Common.Theming;
 using MemofyLife.Data;
 using MemofyLife.Navigation;
 using MemofyLife.Features.Home;
@@ -23,12 +24,16 @@ namespace MemofyLife
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("JetBrainsMonoNL-Regular.ttf", "AppRegular");
+                    fonts.AddFont("JetBrainsMonoNL-Medium.ttf", "AppMedium");
+                    fonts.AddFont("JetBrainsMonoNL-SemiBold.ttf", "AppSemiBold");
+                    fonts.AddFont("JetBrainsMonoNL-Bold.ttf", "AppBold");
                 });
 
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IDialogService, DialogService>();
+            builder.Services.AddSingleton(Preferences.Default);
+            builder.Services.AddSingleton<ThemeService>();
             builder.Services.AddSingleton(_ => new AppDatabase(
                 Path.Combine(FileSystem.AppDataDirectory, DatabaseFileName)));
 
