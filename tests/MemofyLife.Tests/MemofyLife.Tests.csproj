@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MemofyLife.Minesweeper.Engine\MemofyLife.Minesweeper.Engine.csproj" />
+    <ProjectReference Include="..\..\src\MemofyLife.Vehicle\MemofyLife.Vehicle.csproj" />
+    <ProjectReference Include="..\..\src\MemofyLife.Data\MemofyLife.Data.csproj" />
   </ItemGroup>
 
 </Project>

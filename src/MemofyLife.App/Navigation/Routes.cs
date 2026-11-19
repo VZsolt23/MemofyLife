@@ -13,6 +13,8 @@ public static class Routes
     public const string PersonEditPage = "person-edit";
     public const string VehicleLogPage = "vehicle-log";
     public const string EntryEditPage = "entry-edit";
+    public const string VehicleEditPage = "vehicle-edit";
+    public const string ReminderEditPage = "reminder-edit";
     public const string MinesweeperPage = "minesweeper";
 
     public static class Params
@@ -21,6 +23,7 @@ public static class Routes
         public const string VehicleId = "vehicleId";
         public const string EntryId = "entryId";
         public const string EntryType = "entryType";
+        public const string ReminderId = "reminderId";
         public const string Variant = "variant";
     }
 }

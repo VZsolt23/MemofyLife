@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MemofyLife.Features.Vehicle.ViewModels"
+             xmlns:models="clr-namespace:MemofyLife.Vehicle.Models;assembly=MemofyLife.Vehicle"
+             x:Class="MemofyLife.Features.Vehicle.Views.EntryEditPage"
+             x:DataType="vm:EntryEditViewModel"
+             Shell.TabBarIsVisible="False"
+             Title="{Binding Title}">
+
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="6">
+
+            <!-- Típus -->
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" Margin="0,0,0,8">
+                <Button Text="📍 Km"
+                        Style="{StaticResource SegmentButton}"
+                        Command="{Binding SelectTypeCommand}"
+                        CommandParameter="Odometer">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsOdometer}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="1"
+                        Text="⛽ Tankolás"
+                        Style="{StaticResource SegmentButton}"
+                        Command="{Binding SelectTypeCommand}"
+                        CommandParameter="Fuel">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsFuel}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="2"
+                        Text="🔧 Szerviz"
+                        Style="{StaticResource SegmentButton}"
+                        Command="{Binding SelectTypeCommand}"
+                        CommandParameter="Service">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsService}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+
+            <!-- Közös mezők -->
+            <Label Text="Dátum" Style="{StaticResource Caption}" />
+            <DatePicker Date="{Binding Date}" Format="yyyy. MM. dd." />
+
+            <Label Text="Km-állás" Style="{StaticResource Caption}" />
+            <Entry Text="{Binding OdometerText}" Keyboard="Numeric" Placeholder="pl. 128450" />
+            <Label Text="{Binding LastKmHint}" Style="{StaticResource Caption}" />
+
+            <!-- Tankolás -->
+            <VerticalStackLayout IsVisible="{Binding IsFuel}" Spacing="6">
+                <Label Text="Mennyiség (liter)" Style="{StaticResource Caption}" />
+                <Entry Text="{Binding LitersText}" Keyboard="Numeric" Placeholder="pl. 38,4" />
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Teli tank" VerticalOptions="Center" />
+                    <Switch Grid.Column="1" IsToggled="{Binding IsFullTank}" />
+                </Grid>
+                <Label Text="A fogyasztás két teli tankolás között számolható pontosan."
+                       Style="{StaticResource Caption}" />
+            </VerticalStackLayout>
+
+            <!-- Szerviz -->
+            <VerticalStackLayout IsVisible="{Binding IsService}" Spacing="6">
+                <Label Text="Kategória" Style="{StaticResource Caption}" />
+                <Picker ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedCategory}"
+                        ItemDisplayBinding="{Binding Name, x:DataType=models:ServiceCategory}"
+                        Title="Válassz kategóriát" />
+                <Label Text="Leírás" Style="{StaticResource Caption}" />
+                <Entry Text="{Binding Description}" Placeholder="pl. Első fékbetét és tárcsa" />
+                <Label Text="Műhely" Style="{StaticResource Caption}" />
+                <Entry Text="{Binding Workshop}" />
+            </VerticalStackLayout>
+
+            <!-- Költség -->
+            <VerticalStackLayout IsVisible="{Binding HasCost}" Spacing="6">
+                <Label Text="Összeg (Ft)" Style="{StaticResource Caption}" />
+                <Entry Text="{Binding CostText}" Keyboard="Numeric" />
+            </VerticalStackLayout>
+
+            <Label Text="Megjegyzés" Style="{StaticResource Caption}" />
+            <Editor Text="{Binding Note}" AutoSize="TextChanges" />
+
+            <Label Text="{Binding ErrorText}"
+                   Style="{StaticResource ErrorText}"
+                   IsVisible="{Binding HasError}"
+                   Margin="0,8,0,0" />
+
+            <Button Text="Mentés" Command="{Binding SaveCommand}" Margin="0,12,0,0" />
+            <Button Text="Törlés"
+                    Style="{StaticResource DangerButton}"
+                    Command="{Binding DeleteCommand}"
+                    IsVisible="{Binding IsEdit}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

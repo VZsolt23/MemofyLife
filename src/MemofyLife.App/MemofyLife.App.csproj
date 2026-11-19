@@ -99,6 +99,8 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\MemofyLife.Minesweeper.Engine\MemofyLife.Minesweeper.Engine.csproj" />
+	  <ProjectReference Include="..\MemofyLife.Vehicle\MemofyLife.Vehicle.csproj" />
+	  <ProjectReference Include="..\MemofyLife.Data\MemofyLife.Data.csproj" />
 	</ItemGroup>
 
 </Project>

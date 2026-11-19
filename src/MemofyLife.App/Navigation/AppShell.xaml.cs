@@ -1,4 +1,5 @@
 using MemofyLife.Features.Arcade.Games;
+using MemofyLife.Features.Vehicle;
 
 namespace MemofyLife
 {
@@ -12,6 +13,7 @@ namespace MemofyLife
 
         private static void RegisterRoutes()
         {
+            VehicleFeature.RegisterRoutes();
             GameFeature.RegisterRoutes();
         }
     }
