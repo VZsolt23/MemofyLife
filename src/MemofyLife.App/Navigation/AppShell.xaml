@@ -6,6 +6,7 @@
     xmlns:nav="clr-namespace:MemofyLife.Navigation"
     xmlns:home="clr-namespace:MemofyLife.Features.Home.Views"
     xmlns:arcade="clr-namespace:MemofyLife.Features.Arcade.Catalog.Views"
+    xmlns:vehicle="clr-namespace:MemofyLife.Features.Vehicle.Views"
     Title="MemofyLife"
     FlyoutBehavior="Disabled">
 
@@ -15,6 +16,11 @@
             Icon="house_solid_full.png"
             ContentTemplate="{DataTemplate home:HomePage}"
             Route="{x:Static nav:Routes.HomeTab}" />
+        <ShellContent
+            Title="Jármű"
+            Icon="car_solid_full.png"
+            ContentTemplate="{DataTemplate vehicle:VehicleOverviewPage}"
+            Route="{x:Static nav:Routes.VehicleTab}" />
         <ShellContent
             Title="Játszótér"
             Icon="gamepad_solid_full.png"

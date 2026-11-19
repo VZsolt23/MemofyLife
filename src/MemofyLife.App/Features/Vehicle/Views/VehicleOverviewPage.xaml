@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MemofyLife.Features.Vehicle.ViewModels"
+             x:Class="MemofyLife.Features.Vehicle.Views.VehicleOverviewPage"
+             x:DataType="vm:VehicleOverviewViewModel"
+             Title="{Binding Title}">
+
+    <Grid>
+        <!-- Üres állapot: még nincs jármű -->
+        <VerticalStackLayout IsVisible="{Binding HasNoVehicle}"
+                             Padding="24"
+                             Spacing="16"
+                             VerticalOptions="Center">
+            <Label Text="🚗" FontSize="48" HorizontalOptions="Center" />
+            <Label Text="Még nincs autód rögzítve"
+                   Style="{StaticResource SectionTitle}"
+                   HorizontalOptions="Center" />
+            <Label Text="Add meg az autó adatait, utána rögzítheted a km-állást, a tankolásokat és a szervizeket."
+                   Style="{StaticResource Caption}"
+                   HorizontalTextAlignment="Center" />
+            <Button Text="Autó hozzáadása"
+                    Command="{Binding AddVehicleCommand}"
+                    HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <ScrollView IsVisible="{Binding HasVehicle}">
+            <VerticalStackLayout Padding="16" Spacing="16">
+
+                <!-- Jármű fejléc -->
+                <Border Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                        <Label Text="{Binding VehicleName}" Style="{StaticResource SectionTitle}" />
+                        <Label Grid.Row="1"
+                               Text="{Binding VehicleDetails}"
+                               Style="{StaticResource Caption}" />
+                        <Button Grid.Column="1"
+                                Grid.RowSpan="2"
+                                Text="Szerkesztés"
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding EditVehicleCommand}"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Számok -->
+                <Border Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="2">
+                        <Label Text="Kilométeróra" Style="{StaticResource Caption}" />
+                        <Label Grid.Row="1"
+                               Grid.ColumnSpan="2"
+                               Text="{Binding CurrentKmText}"
+                               Style="{StaticResource BigNumber}" />
+                        <Label Grid.Row="2" Text="E havi költség" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        <Label Grid.Row="3" Text="{Binding MonthCostText}" FontFamily="OpenSansSemibold" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="Átlagfogyasztás" Style="{StaticResource Caption}" Margin="0,8,0,0" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding ConsumptionText}" FontFamily="OpenSansSemibold" />
+                    </Grid>
+                </Border>
+
+                <!-- Gyors rögzítés -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Button Text="📍 Km"
+                            Command="{Binding AddEntryCommand}"
+                            CommandParameter="Odometer" />
+                    <Button Grid.Column="1"
+                            Text="⛽ Tankolás"
+                            Command="{Binding AddEntryCommand}"
+                            CommandParameter="Fuel" />
+                    <Button Grid.Column="2"
+                            Text="🔧 Szerviz"
+                            Command="{Binding AddEntryCommand}"
+                            CommandParameter="Service" />
+                </Grid>
+
+                <!-- Karbantartás -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Karbantartás"
+                           Style="{StaticResource SectionTitle}"
+                           VerticalOptions="Center" />
+                    <Button Grid.Column="1"
+                            Text="+ Emlékeztető"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding AddReminderCommand}" />
+                </Grid>
+
+                <Label Text="Nincs karbantartási emlékeztető. Adj hozzá például olajcserét vagy műszaki vizsgát."
+                       Style="{StaticResource Caption}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding HasReminders}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Reminders}" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ReminderItemViewModel">
+                            <Border Style="{StaticResource Card}" Padding="0">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:VehicleOverviewViewModel}}, Path=OpenReminderCommand, x:DataType=vm:VehicleOverviewViewModel}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="6,*" ColumnSpacing="12">
+                                    <BoxView Color="{Binding StatusColor}" />
+                                    <VerticalStackLayout Grid.Column="1" Padding="0,12,12,12" Spacing="2">
+                                        <Label Text="{Binding Title}" FontFamily="OpenSansSemibold" />
+                                        <Label Text="{Binding StatusText}" TextColor="{Binding StatusColor}" />
+                                        <Label Text="{Binding DueText}" Style="{StaticResource Caption}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <!-- Legutóbbi bejegyzések -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="Legutóbbi bejegyzések"
+                           Style="{StaticResource SectionTitle}"
+                           VerticalOptions="Center" />
+                    <Button Grid.Column="1"
+                            Text="Napló"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding OpenLogCommand}" />
+                </Grid>
+
+                <Label Text="Még nincs bejegyzés."
+                       Style="{StaticResource Caption}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding HasEntries}" Value="True">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding RecentEntries}" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:LogItemViewModel">
+                            <Border Style="{StaticResource Card}" Padding="12">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:VehicleOverviewViewModel}}, Path=OpenEntryCommand, x:DataType=vm:VehicleOverviewViewModel}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Label Text="{Binding Icon}" FontSize="22" VerticalOptions="Center" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="{Binding Title}" FontFamily="OpenSansSemibold" />
+                                        <Label Text="{Binding Subtitle}" Style="{StaticResource Caption}" />
+                                        <Label Text="{Binding Detail}"
+                                               Style="{StaticResource Caption}"
+                                               IsVisible="{Binding HasDetail}" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2"
+                                           Text="{Binding CostText}"
+                                           FontFamily="OpenSansSemibold"
+                                           VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
