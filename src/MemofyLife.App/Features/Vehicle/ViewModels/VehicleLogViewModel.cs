@@ -23,7 +23,7 @@ public sealed partial class VehicleLogViewModel : BaseViewModel
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsEmpty))]
-    private IReadOnlyList<LogItemViewModel> items = [];
+    private IReadOnlyList<LogMonthGroup> groups = [];
 
     [ObservableProperty]
     private bool isRefreshing;
@@ -43,7 +43,7 @@ public sealed partial class VehicleLogViewModel : BaseViewModel
 
     public bool IsService => Filter == EntryType.Service;
 
-    public bool IsEmpty => Items.Count == 0;
+    public bool IsEmpty => Groups.Count == 0;
 
     [RelayCommand]
     public async Task LoadAsync()
@@ -57,7 +57,7 @@ public sealed partial class VehicleLogViewModel : BaseViewModel
                 ? []
                 : await _vehicles.GetLogAsync(vehicle.Id, Filter);
 
-            Items = entries.Select(LogItemViewModel.From).ToList();
+            Groups = LogMonthGroup.Build(entries.Select(LogItemViewModel.From));
         }
         finally
         {

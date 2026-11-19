@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Karbantartási emlékeztető sora: ikon az állapot színével, esedékesség, állapotcímke. -->
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:c="clr-namespace:MemofyLife.Common.Controls"
+             xmlns:vm="clr-namespace:MemofyLife.Features.Vehicle.ViewModels"
+             x:Class="MemofyLife.Features.Vehicle.Views.ReminderRow"
+             x:DataType="vm:ReminderItemViewModel">
+    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="0,10">
+        <c:IconBubble Icon="{Binding Icon}" Color="{Binding StatusColor}" />
+        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+            <Label Text="{Binding Title}" Style="{StaticResource TextStrong}" LineBreakMode="TailTruncation" />
+            <Label Text="{Binding StatusText}" Style="{StaticResource TextCaption}" />
+            <Label Text="{Binding DueText}" Style="{StaticResource TextCaption}" />
+        </VerticalStackLayout>
+        <c:StatusPill Grid.Column="2" Text="{Binding StatusLabel}" Color="{Binding StatusColor}" />
+    </Grid>
+</ContentView>
